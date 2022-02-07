@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  rk_method:
+    image: three_body_problem
+    build: ./Container
+    volumes:
+     - ./Container:/usr/src/app
+  
+  webserver:
+    image: nginx
+    restart: always
+    volumes:
+      - ./Container:/usr/share/nginx/html
+    depends_on:
+      - rk_method
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.nginxrouter.entrypoints=web,websecure"
+      - "traefik.http.routers.nginxrouter.rule=Host(`localhost`) || Host(`compass27.physik.uni-wuppertal.de`)"
+      - "traefik.http.services.nginxservice.loadbalancer.server.port=80"
+      - "traefik.http.routers.nginxrouter.tls=true"
+      
+  traefik:
+    image: "traefik:v2.5"
+    container_name: "traefik" 
+    ports:
+      - 8990:8990
+      - 443:443
+      - 8080:8080
+    volumes:
+      -  /etc/localtime:/etc/localtime:ro
+      -  /var/run/docker.sock:/var/run/docker.sock:ro
+      -  ./traefik/data/traefik.yml:/traefik.yml:ro
+      
+     
+    
+   
+
+  
+     
+          
+    
+
+    

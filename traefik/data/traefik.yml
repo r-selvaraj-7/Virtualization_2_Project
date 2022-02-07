@@ -1,0 +1,31 @@
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: false  # true by default
+
+# Enable API and Dashboard
+
+api:
+  dashboard: true  # true by default
+  insecure: true  # Don't do this in production!
+
+# Entry Points configuration
+# ---
+entryPoints:
+  web:
+    address: :8990
+    # (Optional) Redirect to HTTPS
+    # ---
+    http:
+     redirections:
+         entryPoint:
+           to: websecure
+           scheme: https
+
+  websecure:
+    address: :443
+
+
+providers:
+  docker:
+    exposedByDefault: false  # Default is true
+  

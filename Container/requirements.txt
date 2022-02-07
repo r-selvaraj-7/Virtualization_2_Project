@@ -1,0 +1,7 @@
+numpy
+pylab-sdk
+requests
+ffmpeg-python
+ipython
+matplotlib
+moviepy
